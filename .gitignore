@@ -1,1 +1,8 @@
 .DS_Store
+
+build/
+.build/
+build-iPhoneSimulator/
+build-iPhoneOS/
+
+*.bridgesupport
