@@ -100,9 +100,9 @@
 
     [self.innerView addSubview:cardNumberField];
 
-    UIImageView *gradientImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 34)];
-    gradientImageView.image = [UIImage imageNamed:IS_IOS7?@"gradient_7":@"gradient"];
-    [self.innerView addSubview:gradientImageView];
+    _gradientImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 34)];
+    _gradientImageView.image = [UIImage imageNamed:IS_IOS7?@"gradient_7":@"gradient"];
+    [self.innerView addSubview:self.gradientImageView];
 
     if (!IS_IOS7) {
         opaqueOverGradientView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 9, 34)];
@@ -226,7 +226,7 @@
                          }];
     }
 
-    [self.cardNumberField becomeFirstResponder];
+    //[self.cardNumberField becomeFirstResponder];
 }
 
 - (void)stateMeta
@@ -514,6 +514,20 @@
     }
 
     [self checkValid];
+}
+
+@end
+
+@implementation PKView (Propeller)
+
+- (void)highlight {
+    self.gradientImageView.hidden = YES;
+}
+
+- (void)unhighlight {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC), dispatch_get_current_queue(), ^{
+        self.gradientImageView.hidden = NO;
+    });
 }
 
 @end

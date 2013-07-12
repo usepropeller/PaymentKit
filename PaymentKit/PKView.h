@@ -25,6 +25,7 @@
 
 - (BOOL)isValid;
 
+@property (nonatomic, readonly) UIImageView *gradientImageView;
 @property (nonatomic, readonly) UIView *opaqueOverGradientView;
 @property (nonatomic, readonly) PKCardNumber* cardNumber;
 @property (nonatomic, readonly) PKCardExpiry* cardExpiry;
@@ -39,5 +40,12 @@
 @property IBOutlet UIImageView* placeholderView;
 @property id <PKViewDelegate> delegate;
 @property (readonly) PKCard* card;
+
+@end
+
+@interface PKView (Propeller)
+
+- (void)highlight;
+- (void)unhighlight;
 
 @end
