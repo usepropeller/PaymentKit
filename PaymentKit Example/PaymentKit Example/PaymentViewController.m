@@ -32,6 +32,7 @@
 - (void) paymentView:(PKView *)paymentView withCard:(PKCard *)card isValid:(BOOL)valid
 {
     self.navigationItem.rightBarButtonItem.enabled = valid;
+    [paymentView showActivityIndicator];
 }
 
 - (void)didReceiveMemoryWarning

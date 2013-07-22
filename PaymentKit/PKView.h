@@ -38,6 +38,7 @@
 @property IBOutlet PKTextField* cardExpiryField;
 @property IBOutlet PKTextField* cardCVCField;
 @property IBOutlet UIImageView* placeholderView;
+@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property id <PKViewDelegate> delegate;
 @property (readonly) PKCard* card;
 
@@ -47,5 +48,10 @@
 
 - (void)highlight;
 - (void)unhighlight;
+- (void)showActivityIndicator;
+- (void)hideActivityIndicator;
+
+- (void)disableInput;
+- (void)enableInput;
 
 @end

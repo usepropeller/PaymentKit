@@ -58,7 +58,7 @@
 
 @synthesize innerView, opaqueOverGradientView, cardNumberField,
             cardExpiryField, cardCVCField,
-            placeholderView, delegate;
+            placeholderView, delegate, activityIndicator;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -116,6 +116,7 @@
     [self addSubview:placeholderView];
 
     [self stateCardNumber];
+    [self activityIndicator];
 }
 
 - (void)setupPlaceholderView
@@ -358,6 +359,20 @@
     [self setPlaceholderViewImage:[UIImage imageNamed:cardTypeName]];
 }
 
+- (UIActivityIndicatorView *)activityIndicator {
+    if (!activityIndicator) {
+        activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activityIndicator.frame = CGRectMake(12, 13, 32, 20);
+        activityIndicator.hidesWhenStopped = NO;
+        activityIndicator.alpha = 0.f;
+        
+        [activityIndicator startAnimating];
+        [self addSubview:activityIndicator];
+    }
+    
+    return activityIndicator;
+}
+
 // Delegates
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -529,5 +544,49 @@
         self.gradientImageView.hidden = NO;
     });
 }
+
+- (void)showActivityIndicator {
+    [self disableInput];
+    
+    [UIView animateWithDuration:kPKViewPlaceholderViewAnimationDuration delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^
+     {
+         placeholderView.alpha = 0.f;
+         self.activityIndicator.alpha = 1.f;
+     } completion:^(BOOL finished) {
+     }];
+}
+
+- (void)hideActivityIndicator {
+    [UIView animateWithDuration:kPKViewPlaceholderViewAnimationDuration delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^
+     {
+         placeholderView.alpha = 1.f;
+         self.activityIndicator.alpha = 0.f;
+     } completion:^(BOOL finished) {
+         [self enableInput];
+     }];
+}
+
+- (void)disableInput {
+    for (UIView *view in self.innerView.subviews) {
+        if ([view isKindOfClass:[PKTextField class]]) {
+            PKTextField *textField = (PKTextField *)view;
+            textField.enabled = NO;
+        }
+    }
+}
+
+- (void)enableInput {
+    for (UIView *view in self.innerView.subviews) {
+        if ([view isKindOfClass:[PKTextField class]]) {
+            PKTextField *textField = (PKTextField *)view;
+            textField.enabled = YES;
+        }
+    }
+}
+
 
 @end
